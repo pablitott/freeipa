@@ -1,0 +1,113 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+        <title>Free IPA Network</title>
+    </head>
+    <body>
+        <div class='header'>
+            free IPA Notes
+        </div>
+        <div class="container">
+            <nav class="menu">
+                <ul>
+                    <li><a href="./index.html">Home</a></li>
+
+                    <input type="radio" name="menu" id="freeIPA" checked>
+                    <li>
+                        <label for="freeIPA" class="title"><i class="fa fa-folder"></i>freeIPA</label>
+                        <a href="./ipaserver.html">Create a Server</a>
+                        <a href="./networking.html">Configure Network</a>
+                        <a href="./ipausers.html">Create users</a>
+                        <a href="./ipaClient.html">Create a Client</a>
+                        <a href="#">Create a Replica</a>
+                    </li>
+                    <input type="radio" name="menu" id="virtualbox">
+                    <li>
+                        <label for="virtualbox" class="title"><i class="fa fa-edit"></i>Virtual Box</label>
+                        <a href="https://www.freeipa.org/page/Howto/HBAC_and_allow_all">Howto/HBAC and allow all</a>
+                        <a href="#">Images</a>
+                        <a href="#">Cut</a>
+                        <a href="#">Paste</a>
+                        <a href="#">Undo</a>
+                    </li>
+                    <input type="radio" name="menu" id="tools">
+                    <li>
+                        <label for="tools" class="title"><i class="fa fa-gavel"></i>Tools</label>
+                        <a href="#">Build</a>
+                        <a href="#">Macros</a>
+                        <a href="#">Command</a>
+                        <a href="#">Snippets</a>
+                    </li>
+                    <input type="radio" name="menu" id="preferences">
+                    <li>
+                        <label for="preferences" class="title"><i class="fa fa-gears"></i>Preferences</label>
+                        <a href="#">Browser</a>
+                        <a href="#">Settings</a>
+                        <a href="#">Packages</a>
+                        <a href="#">Theme</a>
+                    </li>
+                    <input type="radio" name="menu" id="notes">
+                    <li>
+                        <label for="notes" class="title"><i class="fa fa-gears"></i>Notes</label>
+                        <a href="#">Browser</a>
+                        <a href="#">Settings</a>
+                        <a href="#">Packages</a>
+                        <a href="#">Theme</a>
+                    </li>
+                </ul>
+            </nav>
+            <main class="main">
+                <h1>Prepare Server network properties</h1>
+                <div id="post-1" class="post">
+                    <h2 class="title">Configure static IP address mannually</h2>
+                    <h4 class="date">January, 25, 2021</h4>
+                    <div class="entry">
+                        <p id='demo'>We need to assign an static IP address to our server using NetworkManager, when we create our Virtual Machine in Virtual Box, we have to assign
+                        a &ldquo;Host-Only Adapter&ldquo; with no DHCP enabled see figure 1 below, see the DHCP is disabled</p>
+                        <img class='center' src="images/HostNetworkManager.PNG" width='500' alt='figure 1' title='figure 1' /><br/>
+                        <ol>
+                            <li>The IP must be in the range of the host as 192.168.100.2 - 192.168.100.254 </li>
+                            <li>DNS 192.168.1.1 from /etc/resolv.donf</li>
+                            <li>Gateway from</li>
+                            <!-- <p class='code'>[root@server ~]# ip -r</p> -->
+                            <p class='code'>[root@server ~]# ip r</p>
+                            <object class='file' height="120" data="./txt_files/ip-r.txt"></object>
+                            <li>IP Address and MAC-Address from</li>
+                            <p class='code'>[root@server ~]# ifconfig -a</p>
+                            <object class='file' height="300" data="./txt_files/ifconfig-r.txt"></object>
+                            <li>Set the hostname as:</li>
+                            <p class='command'>[root@server ~]# hostnamectl set-hostname ipaserver.freeipa.local --static</p>
+                            <li>final content of ifcfg-enp0s8</li>
+                            <p class='code'>[root@server ~]# cat /etc/sysconfig/network-scripts/ifcfg-eth1</p>
+                            <object class='file' height="300" data="./txt_files/ifcfg-enp0s8.txt"></object>
+                        </ol>
+                    </div>
+                    <p class="meta">Posted in <a href="http://all-free-download.com/free-website-templates/">Category #1</a> | <a href="http://all-free-download.com/free-website-templates/">Edit</a> | <a href="http://all-free-download.com/free-website-templates/">1 Comment &raquo;</a></p>
+                </div>
+                <div id="post-2" class="post">
+                    <h2 class="title">Useful network commands</h2>
+                    <h4 class="date">January, 25, 2021</h4>
+                    <div class="entry">
+                        <p>To find local IP address</p>
+                        <p class='command'>[root@server ~]# ifconfig ${1:-enp0s3} | awk '/inet / {print $2}'
+                        </p>
+                        <p>function to get bcast address for local computer</p>
+                        <p class='command'>[root@server ~]#  ifconfig ${1:-enp0s3} | awk '/broadcast/ {print $6}';</p>
+                        <p>Function to find the network netmask</p>
+                        <p class='command'>[root@server ~]# ifconfig ${1:-enp0s3} | awk '/netmask/ {print $4}'</p>
+                        <p>You can use the following scripts (ipaServerReview.sh) to check the network values and create the network scripts.
+                            Following scripts assumes the network to configure is enps03, but we can changed to be an argument, in fact the
+                        script name should be eth0, but by the time I'm writing this I do not have it yet.</p>
+                        <p>The ipaServerReview.sh is based on <a href='https://github.com/ohamada/demo' target='_blank'>Ondrej Hamada, FreeIPA Demo</a></p>
+                        <p class='code' style='position:center'>ipaServerReview.sh</p>
+                        <object class='file' height="300" data="./scripts/ipaServerReview.sh"></object>
+                    </div>
+                </div>
+                <!-- End of post-2 -->
+                <div class='footer'>
+                    <p><a href='https://docs.fedoraproject.org/en-US/Fedora/15/html/FreeIPA_Guide/installing-ipa.html'>Ref: FreeIPA User guide</a></p>
+                </div>
+            </main>
+        </div>
+    </body>
+</html>

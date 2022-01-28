@@ -1,0 +1,110 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+        <title>Free IPA Clients</title>
+    </head>
+    <body>
+      <div class='header'>
+          free IPA Notes
+      </div>
+      <div class="container">
+          <nav class="menu">
+              <ul>
+                  <li><a href="./index.html">Home</a></li>
+
+                  <input type="radio" name="menu" id="freeIPA" checked>
+                  <li>
+                      <label for="freeIPA" class="title"><i class="fa fa-folder"></i>freeIPA</label>
+                      <a href="./ipaserver.html">Create a Server</a>
+                      <a href="./networking.html">Configure Network</a>
+                      <a href="#">Create users</a>
+                      <a href="#">Create a Client</a>
+                      <a href="#">Create a Replica</a>
+                  </li>
+                  <input type="radio" name="menu" id="virtualbox">
+                  <li>
+                      <label for="virtualbox" class="title"><i class="fa fa-edit"></i>Virtual Box</label>
+                      <a href="https://www.freeipa.org/page/Howto/HBAC_and_allow_all">Howto/HBAC and allow all</a>
+                      <!-- create a new page with eal exercise-->
+                      <a href="#">Cut</a>
+                      <a href="#">Paste</a>
+                      <a href="#">Undo</a>
+                  </li>
+                  <input type="radio" name="menu" id="tools">
+                  <li>
+                      <label for="tools" class="title"><i class="fa fa-gavel"></i>Tools</label>
+                      <a href="#">Build</a>
+                      <a href="#">Macros</a>
+                      <a href="#">Command</a>
+                      <a href="#">Snippets</a>
+                  </li>
+                  <input type="radio" name="menu" id="preferences">
+                  <li>
+                      <label for="preferences" class="title"><i class="fa fa-gears"></i>Preferences</label>
+                      <a href="#">Browser</a>
+                      <a href="#">Settings</a>
+                      <a href="#">Packages</a>
+                      <a href="#">Theme</a>
+                  </li>
+              </ul>
+          </nav>
+          <main class="main">
+            <h1>Configuring an IPA Client</h1>
+            <div id="post-1" class="post">
+                <h2 class="title">Basics</h2>
+                <div class="entry">
+                    <p>There are two elements to prepare before beginning the client setup process for the Fedora client:</p>
+                    <ul>
+                      <li>There must be a way to connect the client machine to the Kerberos domain, either by having an available Kerberos identity (such as the admin user) or by manually adding the client machine to the KDC on the server with a one-time password before beginning the enrollment process for the client machine.</li>
+                      <li>If there is an Active Directory server on the same network that serves DNS records, the Active Directory DNS records could prevent the client from automatically detecting the FreeIPA server address. The ipa-client-install script retrieves the Active Directory DNS records instead of any records that were added for FreeIPA.
+                        In this case, it is necessary to pass the FreeIPA server address directly to the ipa-client-install script.</li>
+                    </ul>
+                </div>
+                <!-- End of post-1 -->
+            </div>
+            <div id="post-2" class="post">
+                <h2 class="title">To configure the client</h2>
+                <h4 class="date">January, 25, 2021</h4>
+                <div class="entry">
+                  <ol>
+                    <li>Install the client packages. These packages provide a simple way to configure the system as a client; they also install and configure SSSD.<br/>
+                      For a regular user system, this requires only the ipa-client package:
+                    </li>
+                    <p class='command'>yum install freeipa-client</p>
+                    An administrator machine requires the freeipa-admintools package, as well:
+                    <p class='command'>yum install freeipa-client freeipa-admintools</p>
+                    <li>If the FreeIPA server is configured as the DNS server and is in the same domain as the client,
+                      add the server's IP address as the first entry in the client's <strong>/etc/resolv.conf file.</strong>
+                      <p class='tip'>TIP:If every machine in the domain will be a FreeIPA client, then add the FreeIPA server address to the DHCP configuration.</p>
+                    </li>
+                    <li>Run the client setup command.</li>
+                    <p class='command'> ipa-client-install --enable-dns-updates</p>
+                    <li>If prompted, enter the domain name for the FreeIPA DNS domain.</li>
+                    <p class='console'>
+                      DNS discovery failed to determine your DNS domain<br/>
+                      Please provide the domain name of your IPA server (ex: example.com): example.com<br/>
+                    </p>
+                  <li>
+                      If prompted , enter the fully-qualified domain name of the FreeIPA server. Alternatively,
+                      use the --server option with the client installation script to supply the fully-qualified domain name of the FreeIPA server.
+                    </li>
+                    <li>
+                      <p>The --enable-dns-updates option updates DNS with the client machine's IP address.
+                        This option should only be used if the FreeIPA server was installed with <strong>integrated DNS</strong> (which is our case)
+                        or if the DNS server on the network accepts DNS entry updates with the GSS-TSIG protocol.</p>
+                        <p>When using the --server option to specify the FreeIPA server to register with, the server name must be a fully-qualified domain name.</p>
+                        <p class='important'>IMPORTANT: This must be a valid DNS name, which means only numbers,
+                          alphabetic characters, and hyphens (-) are allowed. Other characters, like underscores, in the hostname will cause DNS failures.</p>
+                    </li>
+                    <li>The client script then prompts for a Kerberos identity to use to contact and then join the Kerberos realm. When these credentials are supplied,
+                      then the client is able to join the FreeIPA Kerberos domain and then complete the configuration:
+                    </li>
+                  </ol>
+                </div>
+            </div>
+                <!-- End of post-2 -->
+                <div class='footer'>
+              <p>Based on <a href='https://docs.fedoraproject.org/en-US/Fedora/18/html/FreeIPA_Guide/Installing_the_IPA_Client_on_Linux.html' target='_blank'> Configuring a Fedora System as a FreeIPA Client</a></p>            </div>
+          </main>
+    </body>
+</html>

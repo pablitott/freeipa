@@ -1,0 +1,101 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+# based on https://github.com/freeipa/freeipa-container
+
+Vagrant.configure("2") do |config|
+  config.vm.define "freeipaServer" do |vbox|
+    config.vm.box = "fedora/35-cloud-base"
+    config.vm.box_version = "35.20211026.0"
+    config.vm.provision "shell", privileged: true, inline: <<-SHELL
+      echo "Installing common packages for manager and slaves"
+      yum update -y
+      yum install ipa-server -y
+      yum install bind-dyndb-ldap -y 
+      yum install ipa-server-dns -y
+      yum install firewalld -y
+      systemctl start firewalld
+      systemctl enable firewalld
+
+      SHELL
+  vbox.vm.provision :shell, path: "./bootstrap.sh", privileged: true
+    vbox.vm.hostname = 'ipaserver.freeipa.local'
+    vbox.vm.network :private_network, ip: "192.168.56.101"
+    vbox.vm.synced_folder ".", "/home/vagrant/freeipaServer", owner: "vagrant", group: "vagrant"
+
+    vbox.vm.provider :virtualbox do |v|
+      v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+      v.customize ["modifyvm", :id, "--memory", 4096]
+      v.customize ["modifyvm", :id, "--name", "freeipaServer"]
+    end
+  end
+#======================================================================
+config.vm.define "freeipaReplica01" do |vbox|
+  config.vm.box = "fedora/35-cloud-base"
+  config.vm.box_version = "35.20211026.0"
+  config.vm.provision "shell", privileged: true, inline: <<-SHELL
+    echo "Installing common packages for manager and slaves"
+    yum update -y
+    yum install ipa-server -y
+    yum install bind-dyndb-ldap -y 
+    yum install ipa-server-dns -y
+    yum install firewalld -y
+    systemctl start firewalld
+    systemctl enable firewalld
+
+    SHELL
+vbox.vm.provision :shell, path: "./bootstrap.sh", privileged: true
+  vbox.vm.hostname = 'ipareplica01.freeipa.local'
+  vbox.vm.network :private_network, ip: "192.168.56.102"
+  vbox.vm.synced_folder ".", "/home/vagrant/freeipaReplica01", owner: "vagrant", group: "vagrant"
+
+  vbox.vm.provider :virtualbox do |v|
+    v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+    v.customize ["modifyvm", :id, "--memory", 4096]
+    v.customize ["modifyvm", :id, "--name", "freeipaReplica01"]
+  end
+end
+
+#==========================================================================================
+config.vm.define "freeipaClient01" do |vbox|
+  config.vm.box = "fedora/35-cloud-base"
+  config.vm.box_version = "35.20211026.0"
+  config.vm.provision "shell", privileged: true, inline: <<-SHELL
+    echo "Installing common packages for ipa client"
+    yum update -y
+    yum install ipa-client -y
+    yum install ipa-admintools -y 
+    yum install chrony
+    SHELL
+  vbox.vm.hostname = 'ipaclient01.freeipa.local'
+  vbox.vm.network :private_network, ip: "192.168.56.110"
+  vbox.vm.synced_folder ".", "/home/vagrant/freeipaClient01", owner: "vagrant", group: "vagrant"
+
+  vbox.vm.provider :virtualbox do |v|
+    v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+    v.customize ["modifyvm", :id, "--memory", 2048]
+    v.customize ["modifyvm", :id, "--name", "freeipaClient01"]
+  end
+end
+
+config.vm.define "freeipaClient02" do |vbox|
+  config.vm.box = "fedora/35-cloud-base"
+  config.vm.box_version = "35.20211026.0"
+  config.vm.provision "shell", privileged: true, inline: <<-SHELL
+    echo "Installing common packages for ipa client"
+    yum update -y
+    yum install ipa-client -y
+    yum install ipa-admintools -y 
+    yum install chrony -y
+    SHELL
+  vbox.vm.hostname = 'ipaclient02.freeipa.local'
+  vbox.vm.network :private_network, ip: "192.168.56.120"
+  vbox.vm.synced_folder ".", "/home/vagrant/freeipaClient01", owner: "vagrant", group: "vagrant"
+
+  vbox.vm.provider :virtualbox do |v|
+    v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+    v.customize ["modifyvm", :id, "--memory", 2048]
+    v.customize ["modifyvm", :id, "--name", "freeipaClient02"]
+  end
+end
+
+end

@@ -1,0 +1,75 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class='header'>
+            free IPA Notes
+        </div>
+        <div class="container">
+            <nav class="menu">
+                <ul>
+                    <li><a href="#">Home</a></li>
+
+                    <input type="radio" name="menu" id="freeIPA" checked>
+                    <li>
+                        <label for="freeIPA" class="title"><i class="fa fa-folder"></i>freeIPA</label>
+                        <a class='current' href="./ipaserver.html">Create a Server</a>
+                        <a href="./networking.html">Configure Network</a>
+                        <a href="./ipausers.html">Create users</a>
+                        <a href="./ipaClient.html">Create a Client</a>
+                        <a href="#">Create a Replica</a>
+                    </li>
+                    <input type="radio" name="menu" id="virtualbox">
+                    <li>
+                        <label for="virtualbox" class="title"><i class="fa fa-edit"></i>Virtual Box</label>
+                        <a href="https://www.freeipa.org/page/Howto/HBAC_and_allow_all">Howto/HBAC and allow all</a>
+                        <a href="#">Images</a>
+                        <a href="#">Cut</a>
+                        <a href="#">Paste</a>
+                        <a href="#">Undo</a>
+                    </li>
+                    <input type="radio" name="menu" id="tools">
+                    <li>
+                        <label for="tools" class="title"><i class="fa fa-gavel"></i>Tools</label>
+                        <a href="#">Build</a>
+                        <a href="#">Macros</a>
+                        <a href="#">Command</a>
+                        <a href="#">Snippets</a>
+                    </li>
+                    <input type="radio" name="menu" id="preferences">
+                    <li>
+                        <label for="preferences" class="title"><i class="fa fa-gears"></i>Preferences</label>
+                        <a href="#">Browser</a>
+                        <a href="#">Settings</a>
+                        <a href="#">Packages</a>
+                        <a href="#">Theme</a>
+                    </li>
+                </ul>
+            </nav>
+            <main class="main">
+                <h1>Free IPA Notes</h1>
+                <div id="post-1" class="post">
+                    <h2 class="title">Prepare server before install freeipa</h2>
+                    <div class="entry">
+                        <p>FreeIPA is an open source alternative to Microsoft Directory Server. It provides the following functionality:</p>
+                        <ul>
+                            <li class='entry'>Centralised LDAP based authorisation</li>
+                            <li>Kerberos</li>
+                            <li>Time server</li>
+                            <li>DNS</li>
+                            <li>Certificate Authority</li>
+                            <li>Host and Role based access control</li>
+                        </ul>
+                        <p>and more, all with a reasonable web GUI and excellent command line tools.</p>
+                        <p>This work will walk through an install of FreeIPA on a Fedora 35 Server
+                            install and configures three servers in a multi-master configuration.
+                            It should be similar on CentOS and RHEL <strong>(although the packages might be called ipa not freeipa)</strong>.</p>
+                    </div>
+                </div>
+                <div class='footer'>
+                    <p><a href='https://docs.fedoraproject.org/en-US/Fedora/15/html/FreeIPA_Guide/installing-ipa.html'>Ref: FreeIPA User guide</a></p>
+                </div>
+            </main>
+    </body>
+</html>

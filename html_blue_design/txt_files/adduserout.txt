@@ -1,0 +1,24 @@
+Password: 
+Enter Password again to verify: 
+---------------------
+Added user "ipauser1"
+---------------------
+  User login: ipauser1
+  First name: ipauser1
+  Last name: free
+  Full name: ipauser1 free
+  Display name: ipauser1 free
+  Initials: if
+  Home directory: /home/ipauser1
+  GECOS: ipauser1 free
+  Login shell: /bin/sh
+  Principal name: ipauser1@FREEIPA.LOCAL
+  Principal alias: ipauser1@FREEIPA.LOCAL
+  User password expiration: 20220128192640Z
+  Email address: ipauser1@freeipa.local
+  UID: 1537200008
+  GID: 1537200008
+  Password: True
+  Member of groups: ipausers
+  Member of HBAC rule: allow_ssh
+  Kerberos keys available: True

@@ -1,0 +1,17 @@
+yum update -y
+yum install ipa-server -y
+yum install bind bind-dyndb-ldap -y
+yum install ipa-server-dns -y
+
+yum dnf install chrony -y
+yum install firewalld -y
+systemctl start firewalld
+systemctl enable firewalld
+
+# hostnamectl set-hostname ipaserver.freeipa.local
+# echo "192.168.56.101" /etc/hosts
+
+# after install ipa
+#  for i in 80 443 389 636 88 464; do firewall-cmd --add-port=$i/tcp --permanent; done
+#  for i in 88 464 123; do firewall-cmd --add-port=$i/udp --permanent; done
+#  firewall-cmd --reload

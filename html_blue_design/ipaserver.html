@@ -1,0 +1,180 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+        <title>Free IPA Server</title>
+    </head>
+    <body>
+        <div class='header'>
+            free IPA Notes
+        </div>
+        <div class="container">
+            <nav class="menu">
+                <ul>
+                    <li><a href="./index.html">Home</a></li>
+                    <input type="radio" name="menu" id="freeIPA" checked>
+                    <li>
+                        <label for="freeIPA" class="title"><i class="fa fa-folder"></i>freeIPA</label>
+                        <a class='current' href="./ipaserver.html">Create a Server</a>
+                        <a href="./networking.html">Configure Network</a>
+                        <a href="./ipausers.html">Create users</a>
+                        <a href="./ipaClient.html">Create a Client</a>
+                        <a href="#">Create a Replica</a>
+                    </li>
+                    <input type="radio" name="menu" id="virtualbox">
+                    <li>
+                        <label for="virtualbox" class="title"><i class="fa fa-edit"></i>Virtual Box</label>
+                        <a href="https://www.freeipa.org/page/Howto/HBAC_and_allow_all">Howto/HBAC and allow all</a>
+                        <a href="#">Images</a>
+                        <a href="#">Cut</a>
+                        <a href="#">Paste</a>
+                        <a href="#">Undo</a>
+                    </li>
+                    <input type="radio" name="menu" id="tools">
+                    <li>
+                        <label for="tools" class="title"><i class="fa fa-gavel"></i>Tools</label>
+                        <a href="#">Build</a>
+                        <a href="#">Macros</a>
+                        <a href="#">Command</a>
+                        <a href="#">Snippets</a>
+                    </li>
+                    <input type="radio" name="menu" id="preferences">
+                    <li>
+                        <label for="preferences" class="title"><i class="fa fa-gears"></i>Preferences</label>
+                        <a href="#">Browser</a>
+                        <a href="#">Settings</a>
+                        <a href="#">Packages</a>
+                        <a href="#">Theme</a>
+                    </li>
+                </ul>
+            </nav>
+            <main class="main">
+                <h1>Create a free IPA server</h1>
+                <div id="post-1" class="post">
+                    <h4 class="date">January 25, 2021</h4>
+                    <h2 class="title">Prepare server before install freeipa</h2>
+                    <div class="entry">
+                        <p>Domain: freeipoa.local</p>
+                        <p>IP range: 198.162.100.1/24</p>
+                        <table>
+                            <tr>
+                                <th>Server Role</th>
+                                <td>ipa Master Server 1</td>
+                                <td>ipa Master Server 2</td>
+                                <td>ipa Master Server 3</td>
+                            </tr>
+                            <tr>
+                                <th>hostname</th>
+                                <td>ipaserver1.freeipa.local</td>
+                                <td>ipaserver2.freeipa.local</td>
+                                <td>ipaserver3.freeipa.local</td>
+                            </tr>
+                            <tr>
+                                <th>IP Address</th>
+                                <td>192.168.100.101</td>
+                                <td>192.168.100.102</td>
+                                <td>192.168.100.103</td>
+                            </tr>
+                        </table>
+                        You can follow this structure and substitute your domain and IP range, or if you don’t want 3 servers, then modify to suit.
+                    </div>
+                </div>
+                <!-- End of post-1 -->
+                <div id="post-2" class="post">
+                    <h2 class="title">Prepare server before install freeipa</h2>
+                    <div class="entry">
+                        <p>Once our basic servers have been installed, it will only look to itself for
+                        DNS. However, until you have set up the IPA server, you need to use an external DNS
+                        server so that we can install packages from the Internet.</p>
+                        <p>So, make sure your resolv.conf has at least one working DNS server entry. This will probably be your network’s or ISP’s, but here we are using Google’s:</p>
+                        <p class='command'>
+                          [root@server ~]# echo nameserver 8.8.8.8 >> /etc/resolv.conf<br/>
+                          [root@server ~]# echo nameserver 8.8.4.4 >> /etc/resolv.conf
+                        </p>
+                    </div>
+                </div>
+                <!-- End of post-2 -->
+                <div id="post-3" class="post">
+                    <h2 class="title">freeipa Packages</a></h2>
+                    <div class="entry">
+                      <p>Post install, update all three systems and install any tools you like:</p>
+                      <p class='command'>
+                        [root@ipaserver ~]# yum update -y<br/>
+                        [root@ipaserver ~]# dnf install vim rsync -y<br/>
+                      </p>
+
+                      <p>Now, install the freeipa group and packages on all three servers:</p>
+                      <p class='command'>
+                        [root@ipaserver ~]# dnf install @freeipa-server oddjob-mkhomedir -y
+                      </p>
+                      <p>FreeIPA does not automatically create home directories when users log in. Automatically creating home directories requires either the <strike>pam_oddjob_mkhomedir</strike> now <strong>oddjob-mkhomedir </strong>module. This module can be configured as part of client installation or after installation, as described in <a href='https://docs.fedoraproject.org/en-US/Fedora/15/html/FreeIPA_Guide/users.html#homedir-pammod'>Section 5.1.2, “Enabling the PAM Home Directory Module”.</a></p>
+
+                    </div>
+                </div>
+                <!-- End of post-3 -->
+                <div id="post-4" class="post">
+                    <h2 class="title">Networking</a></h2>
+                    <div class="entry">
+                        <p>for details to set the network interfaces see <a href='./networking'>Networking</a>, after setup the network you have to set the hosts file before install preeipa DNS AS:<br/>
+                        Set /etc/hosts to contain all three IPA servers. This is so that they can resolve each other, even if DNS is not yet working:<br/></p>
+                        <p class='command'>
+                        [root@ipaserver ~]# echo "192.168.100.101 server1.freeipa.local server1" >> /etc/hosts<br/>
+                        [root@ipaserver ~]# echo "192.168.100.102 server22.freeipa.local server22" >> /etc/hosts<br/>
+                        [root@ipaserver ~]# echo "192.168.100.103 server23.freeipa.local server23" >> /etc/hosts<br/>
+                    </p>
+                        <p>After all that, check that the host resolves itself properly:</p>
+                        <p class='command'>hostname -f && hostname -s && hostname -d</p>
+
+                        <p>Ensure search is set properly in resolv.conf. Note, the name server should point to itself, in this case the first IPA server (but replace appropriately as you configure all three). This should have been done as a part of your manual network configuration:
+                        search freeipa.local</p>
+                        <p class='command'>nameserver 192.168.122.101</p>
+                    </div>
+                </div>
+                <!-- End of post-4 -->
+                <div id="post-5" class="post">
+                <h2 class="title">firewall</a></h2>
+                <h4 class="date">January 25, 2021</h4>
+                <div class="entry">
+                    <p>We need to enable ports on the firewall to enable access to services and synchronisation between replicas.</p>
+
+                    <p>Get default zone that your network interface belongs to, this should be FedoraServer:</p>
+                    <p class='code'>firewall-cmd --get-active-zones</p>
+                    <p class='console'>
+                    FedoraServer<br/>
+                        interfaces: enp0s3 eth0<br/>
+                    </p>
+                    <p>See what services are currently enabled on that zone (we'll use FedoraServer in the example, but if you didn’t install Fedora Server edition it might be public):</p>
+                    <p class='command'>firewall-cmd --zone=FedoraServer --list-all</p>
+
+                    <p>Add required ports to that zone (we'll use FedoraServer in the example):</p>
+                    <p class='command'>for x in dns freeipa-ldap freeipa-ldaps freeipa-replication; do firewall-cmd --permanent --zone=FedoraServer --add-service=${x} ; done</p>
+
+                    <p>Note: TCP on port 53 is required for dynamic dns updates to work (included in the service)</p>
+
+
+                    <p>Reload firewall to make active:</p>
+                    <p class='command'>systemctl reload firewalld.service</p>
+
+                </div>
+                </div>
+                <!-- end of post-5 -->
+                <div id="post-6" class="post">
+                    <h2 class="title">Configure IPA Master</a></h2>
+                    <p>Now we will install freeIPA server master instance, from which other servers will replicate</p>
+                    <p><bold>Note:</bold>You can set the id range or let it auto-allocate, in this case we use:</p>
+                    <p class='command'>ipa-server-install --ssh-trust-dns --setup-dns --idstart=60000 --idmax=99999 --no_hbac_allow --mkhomedir</p>
+                    <p>Original</p>
+                    <p class='code'>ipa-server-install -a tutp610125 --hostname=ipaserver.freeipa.local -r FREEIPA.LOCAL -p tutp610125 -n freeipa.local --ssh-trust-dns --setup-dns --idstart=60000 --idmax=99999 --no_hbac_allow --mkhomedir -U</p>
+                    <object class='file' height="300" data="./txt_files/ipaserver.log"></object>
+                    <p class='tip'>--no_hbac_allow: See the HBAC rules and create a new page from <a href='https://www.freeipa.org/page/Howto/HBAC_and_allow_all'>Howto/HBAC and allow all</a></p>
+
+                </div>
+                <!-- end of post-6 -->
+                <div class='footer'>
+                    <p><a href='https://docs.fedoraproject.org/en-US/Fedora/15/html/FreeIPA_Guide/installing-ipa.html'>Ref: FreeIPA User guide</a></p>
+                  </div>
+  
+                <!-- <div id="post-7" class="post"></div> -->
+            </main>
+        </div>
+    </body>
+</html>

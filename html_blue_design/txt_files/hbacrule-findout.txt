@@ -1,0 +1,21 @@
+--------------------
+3 HBAC rules matched
+--------------------
+  Rule name: allow_all
+  User category: all
+  Host category: all
+  Service category: all
+  Description: Allow all users to access any host from any host
+  Enabled: TRUE
+
+  Rule name: allow_ssh
+  Enabled: TRUE
+
+  Rule name: allow_systemd-user
+  User category: all
+  Host category: all
+  Description: Allow pam_systemd to run user@.service to create a system user session
+  Enabled: TRUE
+----------------------------
+Number of entries returned 3
+----------------------------

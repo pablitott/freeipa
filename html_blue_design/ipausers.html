@@ -1,0 +1,141 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+        <title>Free IPA Users</title>
+    </head>
+    <body>
+        <div class='header'>
+            free IPA Notes
+        </div>
+        <div class="container">
+            <nav class="menu">
+                <ul>
+                    <li><a href="./index.html">Home</a></li>
+
+                    <input type="radio" name="menu" id="freeIPA" checked>
+                    <li>
+                        <label for="freeIPA" class="title"><i class="fa fa-folder"></i>freeIPA</label>
+                        <a class='current' href="./ipaserver.html">Create a Server</a>
+                        <a href="./networking.html">Configure Network</a>
+                        <a href="#">Create users</a>
+                        <a href="./ipaClient.html">Create a Client</a>
+                        <a href="#">Create a Replica</a>
+                    </li>
+                    <input type="radio" name="menu" id="virtualbox">
+                    <li>
+                        <label for="virtualbox" class="title"><i class="fa fa-edit"></i>Virtual Box</label>
+                        <a href="https://www.freeipa.org/page/Howto/HBAC_and_allow_all">Howto/HBAC and allow all</a>
+                        <!-- create a-->
+                        <a href="#">Cut</a>
+                        <a href="#">Paste</a>
+                        <a href="#">Undo</a>
+                    </li>
+                    <input type="radio" name="menu" id="tools">
+                    <li>
+                        <label for="tools" class="title"><i class="fa fa-gavel"></i>Tools</label>
+                        <a href="#">Build</a>
+                        <a href="#">Macros</a>
+                        <a href="#">Command</a>
+                        <a href="#">Snippets</a>
+                    </li>
+                    <input type="radio" name="menu" id="preferences">
+                    <li>
+                        <label for="preferences" class="title"><i class="fa fa-gears"></i>Preferences</label>
+                        <a href="#">Browser</a>
+                        <a href="#">Settings</a>
+                        <a href="#">Packages</a>
+                        <a href="#">Theme</a>
+                    </li>
+                </ul>
+            </nav>
+            <main class="main">
+                <h1>Create IPA users</h1>
+                <div id="post-1" class='post'>
+                    <h2 class="title">Create users in Linux</h2>
+                    <h4 class="date">January, 25, 2021</h4>
+                    <div class="entry">
+                        <p>The general syntax for the useradd command is as follows:</p>
+                        <p class='command'>useradd [options] &lt;username&gt;</p>
+                        <ul>Options
+                            <li>-m =&gt; Create home dir</li>
+                            <li>-c =&gt; Comment</li>
+                            <li>-p =&gt; Password</li>
+                        </ul>
+                        <p>if we want to create the user with his own home directory use:</p>
+                        <p class='command'>sudo useradd -m &lt;username&gt;</p>
+                        <p>you can assign the password but in IPA you should not assign the password here, just for the record this is the command to assign a password</p>
+                        <p class='command'>sudo passwd &lt;username&gt;</p>
+                        <h3 class="title">linux create user with root privileges</h3>
+                        <title>add the user to sudoers group</title>
+                        <p class='command'>usermod -aG sudo &lt;username&gt;</p>
+                        <p>By default, on Ubuntu, members of the sudo group have sudo privileges.</p>
+                        <p>When you just add a new user into the sudo group, every time the user switch to gain sudo provileges, Linux prompt for the user password, 
+                            to avoid this behaviour you can add the new user to the sudoers configuration as: </p>
+                        <title>Adding User to the sudoers File</title>
+                        <p class='command'>sudo visudo</p>
+                        <p>Scroll down to the end of the file and add the following line:</p>
+                        <p class='code'>/etc/sudoers</p>
+                        <p class=console>&lt;username&gt;  ALL=(ALL) NOPASSWD:ALL</p>
+                        <p>Save a file and quit the editor . Do not forget to change “username” with the username you want to grant access to.</p>
+                        <p>Another typical example is to allow the user to run only specific commands via sudo . 
+                        For example, to allow only the mkdir and rmdir commands, you would use:</p>
+                        <p class='code'>/etc/sudoers</p>
+                        <p class=console>&lt;username&gt; ALL=(ALL) NOPASSWD:/bin/mkdir,/bin/rmdir</p>
+                        <p>Instead of editing the sudoers file, you can accomplish the same by creating a new file with the authorization rules 
+                            in the /etc/sudoers.d directory. Add the same rule as you would add to the sudoers file:</p>
+                        <p class='command'>echo "&lt;username&gt;  ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/username</p>
+                        <p>This approach makes the management of the sudo privileges more maintainable. 
+                            The name of the file not important. It is a common practice the name of the file to be the same as the username.</p>
+                            <h3 class="title">Remove a Linux user</h3>
+                        <p class='command'>userdel &lt;username&gt;</p>
+                    </div>
+                </div>
+                <!-- end #post-1 -->
+                <div id='post-2' class='post'>
+                    <h2 class="title">Create users for IPA</h2>
+                    <div class="entry">
+                        <p>to create a new ipa user you must first authenticate into the server using an admin user, in this case we have admin </p>
+                        <p class='command'>kinit admin</p>
+                        <p> now you can create a new ipa user as:</p>
+                        <p class='code'>ipa user-add ipauser1 --first=ipauser1 --last=free --password</p>
+                        <object class='file' height="300" data="./txt_files/adduserout.txt"></object>
+                        <p>You can type the password in the sane command as</p>
+                        <p class='command'>ipa user-add ipauser1 --first=ipauser1 --last=free --password &lt;secretPassword&gt;</p>
+
+                        <p>To list the existing users, with no arguments it shows the all the users and properties, 
+                            with a user name as an argument it shows only the user properties provided</p>
+                        <p class='code'>ipa user-find</p>
+
+                        <p>You can modify the user information as</p>
+                        <p class='command'>ipa user-mod ipauser1 --set postalCode=50211</p>
+                        <object class='file' height="300" data="./txt_files/moduserout.txt"></object>
+
+                        <p>Now the new user can login on the domain machines, the first time the user login, it will be propmted to change the password </p>
+                        <p class='console'>
+                            [vagrant@ipaserver ~]$ ssh ipauser1@ipaclient01.freeipa.local<br/>
+                            (ipauser1@ipaclient01.freeipa.local) Password: <br/>
+                            (ipauser1@ipaclient01.freeipa.local) Password expired. Change your password now.<br/>
+                            Current Password:<br/>
+                            (ipauser1@ipaclient01.freeipa.local) New password: <br/>
+                            (ipauser1@ipaclient01.freeipa.local) Retype new password: <br/>
+                        </p>
+                        <p>The new user has his own user folder because we use -mkhomedir when we install freeipa server</p>
+                        <p>The user can access the computers in the domain without restrictions because we use
+                             --no_hbac_allow when we install freeipa server, to remove this property and restrict the access we have to setup hbac, 
+                             please refer to <a href='https://www.freeipa.org/page/Howto/HBAC_and_allow_all' target='_blank'>HBAC and allow all</a>, this property is good 
+                            for initial freeipa setup, we can set the user properties without restrictions, we can confirm this rule by</p>
+                            <p class='command'>ipa hbacrule-find</p>
+                            <object class='file' data="./txt_files/hbacrule-findout.txt"></object>
+                            <p>see <a href='hbachowto.html'>HBAC How to for more details</a></p>
+                    </div>
+                </div>
+                <!-- end #post-2 -->
+                <div class='footer'>
+                    <p><a href='https://docs.fedoraproject.org/en-US/Fedora/15/html/FreeIPA_Guide/installing-ipa.html'>Ref: FreeIPA User guide</a></p>
+                </div>
+            
+            </main>
+        </div>
+    </div>
+    </body>
+</html>

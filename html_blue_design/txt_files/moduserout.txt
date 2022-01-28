@@ -1,0 +1,19 @@
+------------------------
+Modified user "ipauser1"
+------------------------
+  User login: ipauser1
+  First name: ipauser1
+  Last name: free
+  Home directory: /home/ipauser1
+  Login shell: /bin/sh
+  Principal name: ipauser1@FREEIPA.LOCAL
+  Principal alias: ipauser1@FREEIPA.LOCAL
+  Email address: ipauser1@freeipa.local
+  UID: 1537200008
+  GID: 1537200008
+  ZIP: 50211
+  Account disabled: False
+  Password: True
+  Member of groups: ipausers
+  Indirect Member of HBAC rule: allow_ssh
+  Kerberos keys available: True
