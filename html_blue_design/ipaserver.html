@@ -75,7 +75,7 @@
                                 <td>192.168.100.103</td>
                             </tr>
                         </table>
-                        You can follow this structure and substitute your domain and IP range, or if you don’t want 3 servers, then modify to suit.
+                        You can follow this structure and substitute your domain and IP range, or if you don&#39;t want 3 servers, then modify to suit.
                     </div>
                 </div>
                 <!-- End of post-1 -->
@@ -85,7 +85,7 @@
                         <p>Once our basic servers have been installed, it will only look to itself for
                         DNS. However, until you have set up the IPA server, you need to use an external DNS
                         server so that we can install packages from the Internet.</p>
-                        <p>So, make sure your resolv.conf has at least one working DNS server entry. This will probably be your network’s or ISP’s, but here we are using Google’s:</p>
+                        <p>also, make sure your resolv.conf has at least one working DNS server entry. This will probably be your network&#39;s or ISP&#39;s, but here we are using Google:</p>
                         <p class='command'>
                           [root@server ~]# echo nameserver 8.8.8.8 >> /etc/resolv.conf<br/>
                           [root@server ~]# echo nameserver 8.8.4.4 >> /etc/resolv.conf
@@ -164,7 +164,7 @@
                     <p class='command'>ipa-server-install --ssh-trust-dns --setup-dns --idstart=60000 --idmax=99999 --no_hbac_allow --mkhomedir</p>
                     <p>Original</p>
                     <p class='code'>ipa-server-install -a tutp610125 --hostname=ipaserver.freeipa.local -r FREEIPA.LOCAL -p tutp610125 -n freeipa.local --ssh-trust-dns --setup-dns --idstart=60000 --idmax=99999 --no_hbac_allow --mkhomedir -U</p>
-                    <object class='file' height="300" data="./txt_files/ipaserver.log"></object>
+                    <iframe class='file' height="300" src="./txt_files/ipaserver.txt"></iframe>
                     <p class='tip'>--no_hbac_allow: See the HBAC rules and create a new page from <a href='https://www.freeipa.org/page/Howto/HBAC_and_allow_all'>Howto/HBAC and allow all</a></p>
 
                 </div>
@@ -172,7 +172,7 @@
                 <div class='footer'>
                     <p><a href='https://docs.fedoraproject.org/en-US/Fedora/15/html/FreeIPA_Guide/installing-ipa.html'>Ref: FreeIPA User guide</a></p>
                   </div>
-  
+
                 <!-- <div id="post-7" class="post"></div> -->
             </main>
         </div>

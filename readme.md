@@ -203,13 +203,3 @@ where XXXXXXXX is the UID located in the freeipa dashboard Identity.Users guid
 
 
 ### authselect command old authconfig
-
-
-```mermaid
-stateDiagram
-    [*] --> First
-    state First {
-        [*] --> second
-        second --> [*]
-    }
-```

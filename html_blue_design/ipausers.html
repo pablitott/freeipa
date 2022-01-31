@@ -15,12 +15,12 @@
                     <input type="radio" name="menu" id="freeIPA" checked>
                     <li>
                         <label for="freeIPA" class="title"><i class="fa fa-folder"></i>freeIPA</label>
-                        <a class='current' href="./ipaserver.html">Create a Server</a>
+                        <a href="./ipaserver.html">Create a Server</a>
                         <a href="./networking.html">Configure Network</a>
-                        <a href="#">Create users</a>
+                        <a href="./ipausers.html">Create users</a>
                         <a href="./ipaClient.html">Create a Client</a>
                         <a href="#">Create a Replica</a>
-                    </li>
+                      </li>
                     <input type="radio" name="menu" id="virtualbox">
                     <li>
                         <label for="virtualbox" class="title"><i class="fa fa-edit"></i>Virtual Box</label>
@@ -69,7 +69,7 @@
                         <title>add the user to sudoers group</title>
                         <p class='command'>usermod -aG sudo &lt;username&gt;</p>
                         <p>By default, on Ubuntu, members of the sudo group have sudo privileges.</p>
-                        <p>When you just add a new user into the sudo group, every time the user switch to gain sudo provileges, Linux prompt for the user password, 
+                        <p>When you just add a new user into the sudo group, every time the user switch to gain sudo provileges, Linux prompt for the user password,
                             to avoid this behaviour you can add the new user to the sudoers configuration as: </p>
                         <title>Adding User to the sudoers File</title>
                         <p class='command'>sudo visudo</p>
@@ -77,14 +77,14 @@
                         <p class='code'>/etc/sudoers</p>
                         <p class=console>&lt;username&gt;  ALL=(ALL) NOPASSWD:ALL</p>
                         <p>Save a file and quit the editor . Do not forget to change “username” with the username you want to grant access to.</p>
-                        <p>Another typical example is to allow the user to run only specific commands via sudo . 
+                        <p>Another typical example is to allow the user to run only specific commands via sudo .
                         For example, to allow only the mkdir and rmdir commands, you would use:</p>
                         <p class='code'>/etc/sudoers</p>
                         <p class=console>&lt;username&gt; ALL=(ALL) NOPASSWD:/bin/mkdir,/bin/rmdir</p>
-                        <p>Instead of editing the sudoers file, you can accomplish the same by creating a new file with the authorization rules 
+                        <p>Instead of editing the sudoers file, you can accomplish the same by creating a new file with the authorization rules
                             in the /etc/sudoers.d directory. Add the same rule as you would add to the sudoers file:</p>
                         <p class='command'>echo "&lt;username&gt;  ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/username</p>
-                        <p>This approach makes the management of the sudo privileges more maintainable. 
+                        <p>This approach makes the management of the sudo privileges more maintainable.
                             The name of the file not important. It is a common practice the name of the file to be the same as the username.</p>
                             <h3 class="title">Remove a Linux user</h3>
                         <p class='command'>userdel &lt;username&gt;</p>
@@ -102,7 +102,7 @@
                         <p>You can type the password in the sane command as</p>
                         <p class='command'>ipa user-add ipauser1 --first=ipauser1 --last=free --password &lt;secretPassword&gt;</p>
 
-                        <p>To list the existing users, with no arguments it shows the all the users and properties, 
+                        <p>To list the existing users, with no arguments it shows the all the users and properties,
                             with a user name as an argument it shows only the user properties provided</p>
                         <p class='code'>ipa user-find</p>
 
@@ -121,11 +121,17 @@
                         </p>
                         <p>The new user has his own user folder because we use -mkhomedir when we install freeipa server</p>
                         <p>The user can access the computers in the domain without restrictions because we use
-                             --no_hbac_allow when we install freeipa server, to remove this property and restrict the access we have to setup hbac, 
-                             please refer to <a href='https://www.freeipa.org/page/Howto/HBAC_and_allow_all' target='_blank'>HBAC and allow all</a>, this property is good 
+                             --no_hbac_allow when we install freeipa server, to remove this property and restrict the access we have to setup hbac,
+                             please refer to <a href='https://www.freeipa.org/page/Howto/HBAC_and_allow_all' target='_blank'>HBAC and allow all</a>, this property is good
                             for initial freeipa setup, we can set the user properties without restrictions, we can confirm this rule by</p>
                             <p class='command'>ipa hbacrule-find</p>
                             <object class='file' data="./txt_files/hbacrule-findout.txt"></object>
+                            <p>In the previous result we already have 3 HBAC rules</p>
+                            <ol>
+                                <li>Rule name: allow_all</li>
+                                <li>Rule name: allow_ssh</li>
+                                <li>Rule name: allow_systemd-user</li>
+                            </ol>
                             <p>see <a href='hbachowto.html'>HBAC How to for more details</a></p>
                     </div>
                 </div>
@@ -133,7 +139,7 @@
                 <div class='footer'>
                     <p><a href='https://docs.fedoraproject.org/en-US/Fedora/15/html/FreeIPA_Guide/installing-ipa.html'>Ref: FreeIPA User guide</a></p>
                 </div>
-            
+
             </main>
         </div>
     </div>
