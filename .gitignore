@@ -2,3 +2,6 @@ ipa_*.pub
 ipa_rsa
 ipa_ptrujillo
 
+.vagrant/**/*
+.vagrant/bundler/global.sol
+.vagrant/bundler/global.sol

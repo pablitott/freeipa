@@ -70,4 +70,19 @@ config.vm.define "freeipareplica01" do |vbox|
     end
   end
 #=============================================================================
+config.vm.define "freeipaDocker" do |vbox|
+  config.vm.box = "fedora/35-cloud-base"
+  config.vm.box_version = "35.20211026.0"
+  config.vm.provision "docker"
+  # see https://www.vagrantup.com/docs/provisioning/docker
+  vbox.vm.hostname = 'ipaDocker.freeipa.local'
+  vbox.vm.network :private_network, ip: "192.168.56.120"
+  vbox.vm.synced_folder  '.', '/home/vagrant/freeipa', owner: 'vagrant'
+  vbox.vm.provider :virtualbox do |v|
+    v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+    v.customize ["modifyvm", :id, "--memory", 2 * 1024 ]
+    v.customize ["modifyvm", :id, "--name", "ipaDocker"]
+  end
+end
+
 end
